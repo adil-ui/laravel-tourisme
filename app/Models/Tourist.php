@@ -2,21 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Person;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tourist extends Model
+class Tourist extends Person
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'address',
-        'phone',
-        'picture',
-        'status',
-        'created_at',
-        'updated_at'
+
     ];
 }

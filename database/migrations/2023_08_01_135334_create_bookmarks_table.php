@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('bookmarks', function (Blueprint $table) {
             $table->id();
             $table->integer('type');
+            $table->integer('offer_id');
             $table->foreignIdFor(Tourist::class);
 
         });

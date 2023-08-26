@@ -2,26 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Person;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Guide extends Model
+class Guide extends Person
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'description',
-        'address',
-        'phone',
         'link',
-        'picture',
-        'status',
         'longitude',
+        'description',
         'latitude',
         'ville_id',
-        'created_at',
-        'updated_at'
     ];
 }

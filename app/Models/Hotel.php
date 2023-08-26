@@ -2,28 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Person;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Hotel extends Model
+class Hotel extends Person
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'description',
         'price',
-        'address',
-        'link',
         'star',
-        'phone',
-        'picture',
-        'status',
+        'link',
         'longitude',
+        'description',
         'latitude',
         'ville_id',
-        'created_at',
-        'updated_at'
     ];
 }
