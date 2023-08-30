@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agence;
+use App\Models\City;
 use App\Models\Guide;
 use App\Models\Hotel;
 use App\Models\Tourist;
@@ -21,7 +22,7 @@ class UserController extends Controller
         $flight = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'role' => $request->type,
             'status' => 'Débloquer',
             'created_at' => Carbon::now(),
@@ -63,9 +64,20 @@ class UserController extends Controller
 
             $userFind = User::find($id);
             $userRole = $userFind->role;
+            error_log($userRole);
             if($userRole === 'Tourist'){
                 $tableName = 'tourists';
+            }elseif($userRole === 'Hotel'){
+                $tableName = 'hotels';
+            }elseif($userRole === 'Guide'){
+                $tableName = 'guides';
+            }elseif($userRole === 'Agence'){
+                $tableName = 'agences';
+            }else{
+                $tableName = 'employees';
             }
+            error_log($tableName);
+
             $user = DB::table($tableName)
             ->where('user_id', $id)
             ->first();
@@ -73,14 +85,83 @@ class UserController extends Controller
             if ($request->hasFile('picture') && $request->file('picture')->isValid()) {
                 $picture = "storage/" . $request->picture->store('user/images');
             }
-            $user = DB::table($tableName)->where("id", $id)->update([
-                "name" => $request->name,
-                "email" => $request->email,
-                "address" => $request->address,
-                "phone" => $request->phone,
-                "password" => $user->password != $request->password ? Hash::make($request->password) : $user->password,
-                "picture" => $picture,
-            ]);
+            if($request->email != '' || $request->password != ''){
+                User::where('id', $id)->update([
+                    "email" => $user->email != $request->email ? $request->email : $user->email,
+                    "password" => $user->password != $request->password ? Hash::make($request->password) : $user->password,
+                ]);
+            }
+            if($request ->city != ''){
+                $query = City::where('name', $request->city)->getQuery();
+                error_log($request->city);
+                if (!$query->exists()) {
+                    $city = City::create([
+                        "name" => $request->city
+                    ]);
+                } else {
+                    $city = $query->first();
+                }
+            }
+            if($tableName === 'hotels'){
+                $user = DB::table($tableName)->where("user_id", $id)->update([
+                    "name" => $request->name,
+                    "email" => $request->email,
+                    "address" => $request->address,
+                    "phone" => $request->phone,
+                    "password" => $user->password != $request->password ? Hash::make($request->password) : $user->password,
+                    "picture" => $picture,
+                    "description" => $request->description,
+                    "price" => $request->price,
+                    "star" => $request->star,
+                    "longitude" => $request->longitude,
+                    "latitude" => $request->latitude,
+                    "link" => $request->link,
+                    "city_id" => $city->id,
+
+                ]);
+            }elseif($tableName === 'agences'){
+                $user = DB::table($tableName)->where("user_id", $id)->update([
+                    "name" => $request->name,
+                    "email" => $request->email,
+                    "address" => $request->address,
+                    "phone" => $request->phone,
+                    "password" => $user->password != $request->password ? Hash::make($request->password) : $user->password,
+                    "picture" => $picture,
+                    "description" => $request->description,
+                    "price" => $request->price,
+                    "longitude" => $request->longitude,
+                    "latitude" => $request->latitude,
+                    "link" => $request->link,
+                    "city_id" => $city->id,
+
+                ]);
+            }elseif($tableName === 'guides'){
+                $user = DB::table($tableName)->where("user_id", $id)->update([
+                    "name" => $request->name,
+                    "email" => $request->email,
+                    "address" => $request->address,
+                    "phone" => $request->phone,
+                    "password" => $user->password != $request->password ? Hash::make($request->password) : $user->password,
+                    "picture" => $picture,
+                    "description" => $request->description,
+                    "longitude" => $request->longitude,
+                    "latitude" => $request->latitude,
+                    "link" => $request->link,
+                    "city_id" => $city->id,
+
+                ]);
+            }else{
+                $user = DB::table($tableName)->where("user_id", $id)->update([
+                    "name" => $request->name,
+                    "email" => $request->email,
+                    "address" => $request->address,
+                    "phone" => $request->phone,
+                    "password" => $user->password != $request->password ? Hash::make($request->password) : $user->password,
+                    "picture" => $picture,
+
+                ]);
+            }
+
             $user = DB::table($tableName)
             ->where('user_id', $id)
             ->first();

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\HotelController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,10 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password/{token}', [AuthController::class, 'resetPassword']);
 
 Route::post('/add-bookmark', [BookmarkController::class, 'addBookmark']);
-Route::get('/all-bookmark', [BookmarkController::class, 'getBookmark']);
+Route::get('/get-bookmark', [BookmarkController::class, 'getBookmark']);
 Route::post('/delete-bookmark/{id}', [BookmarkController::class, 'deleteBookmark']);
 
+Route::get('/all-hotel', [HotelController::class, 'getHotel']);
+Route::post('/add-hotel', [HotelController::class, 'addHotel']);
+Route::post('/update-hotel/{id}', [HotelController::class, 'updateHotel']);
+Route::post('/block-hotel/{id}', [ HotelController::class, 'blockHotel']);

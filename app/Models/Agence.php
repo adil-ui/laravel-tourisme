@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\City;
 use App\Models\Person;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,11 @@ class Agence extends Person
         'link',
         'longitude',
         'latitude',
-        'ville_id'
+        'city_id'
     ];
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 
 }
