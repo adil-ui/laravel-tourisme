@@ -31,4 +31,5 @@ Route::post('/delete-bookmark/{id}', [BookmarkController::class, 'deleteBookmark
 Route::get('/all-hotel', [HotelController::class, 'getHotel']);
 Route::post('/add-hotel', [HotelController::class, 'addHotel']);
 Route::post('/update-hotel/{id}', [HotelController::class, 'updateHotel']);
-Route::post('/block-hotel/{id}', [ HotelController::class, 'blockHotel']);
+Route::delete('/delete-hotel/{id}', [ HotelController::class, 'deleteHotel']);
+Route::get('/details-hotel/{id}', [ HotelController::class, 'detailsHotel']);
