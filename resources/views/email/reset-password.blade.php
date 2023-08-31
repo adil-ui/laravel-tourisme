@@ -9,7 +9,6 @@
 </head>
 
 <body>
-    <h2>Hi, {{ $user->name }}</h2>
     <a href="http://localhost:3000/reset-password/{{ $token }}">Reset password</a>
 </body>
 

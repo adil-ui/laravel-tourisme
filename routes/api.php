@@ -29,6 +29,9 @@ Route::get('/get-bookmark', [BookmarkController::class, 'getBookmark']);
 Route::post('/delete-bookmark/{id}', [BookmarkController::class, 'deleteBookmark']);
 
 Route::get('/all-hotel', [HotelController::class, 'getHotel']);
+Route::get('/home-hotel-per-page/{page}', [HotelController::class, 'getHomeHotelPerPage']);
+Route::get('/hotel-per-page/{page}', [HotelController::class, 'getHotelPerPage']);
+Route::post('/search/{page}', [HotelController::class, 'search']);
 Route::post('/add-hotel', [HotelController::class, 'addHotel']);
 Route::post('/update-hotel/{id}', [HotelController::class, 'updateHotel']);
 Route::delete('/delete-hotel/{id}', [ HotelController::class, 'deleteHotel']);

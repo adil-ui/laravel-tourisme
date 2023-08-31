@@ -53,11 +53,6 @@ class HotelController extends Controller
 
     }
 
-    public function getHotel()
-    {
-        $hotels = Hotel::orderBy("created_at", "desc")->with('city')->get();
-        return response()->json(['hotels' => $hotels]);
-    }
     public function detailsHotel($id)
     {
         $hotel = Hotel::where('id', $id)->with('city')->get();
@@ -109,6 +104,59 @@ class HotelController extends Controller
         Hotel::find($id)->delete();
 
     }
+    public function getHotel()
+    {
+        $hotels = Hotel::orderBy("created_at", "desc")->with('city')->get();
+        return response()->json(['hotels' => $hotels]);
+    }
+    public function getHotelPerPage($page)
+    {
+        $hotels = Hotel::orderBy('created_at', 'desc')->with('city')->offset(7 * ($page - 1))->limit(7)->get();
+        $hotelsLenght = count(Hotel::all());
+        return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+    }
+    public function getHomeHotelPerPage($page)
+    {
+        $hotels = Hotel::orderBy('created_at', 'desc')->with('city')->offset(8 * ($page - 1))->limit(8)->get();
+        $hotelsLenght = count(Hotel::all());
+        return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+    }
+    public function search(Request $request, $page)
+    {
+        if ($request->search == "all") {
+            $hotels = Hotel::orderBy('created_at', 'desc')->with('city')->offset(7 * ($page - 1))->limit(7)->get();
+            $hotelsLenght = count(Hotel::all());
+            return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+        }
+        if ($request->search == "id") {
+            $hotels = Hotel::where('id', $request->searchValue)->with('city')->get();
+            $hotelsLenght = count($hotels);
+            return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+        }
+        if ($request->search == "name") {
+            $hotels = Hotel::where('name', $request->searchValue)->orderBy('created_at', 'desc')->with('city')->get();
+            $hotelsLenght = count($hotels);
+            return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+        }
+        if ($request->search == "star") {
+            $hotels = Hotel::where('star', $request->searchValue)->orderBy('created_at', 'desc')->with('city')->get();
+            $hotelsLenght = count($hotels);
+            return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+        }
+        if ($request->search == "city") {
+            try {
+                $citySelected = City::where('name', $request->searchValue)->get();
+                $hotels = Hotel::where('city_id', $citySelected[0]->id)->orderBy('created_at', 'desc')->with('city')->offset(7 * ($page - 1))->limit(7)->get();
+                $hotelsLenght = count(Hotel::where('city_id', $citySelected[0]->id)->get());
+                return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
+            } catch (Exception $e) {
+                return response()->json(['hotels' => [], "hotelsLenght" => 0]);
+            }
+        }
+
+        }
+
+    }
 
 
 
@@ -122,5 +170,3 @@ class HotelController extends Controller
 
 
 
-
-}
