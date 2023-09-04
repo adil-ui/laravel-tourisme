@@ -168,4 +168,57 @@ class UserController extends Controller
             return response()->json(['success' => 'Modify successfully', "user" => $user]);
 
     }
+    public function getUser()
+    {
+        $users = User::orderBy("created_at", "desc")->get();
+        return response()->json(['users' => $users]);
+    }
+
+    public function getUserPerPage($page)
+    {
+        $users = User::orderBy('created_at', 'desc')->offset(7 * ($page - 1))->limit(7)->get();
+        $usersLenght = count(User::all());
+        return response()->json(['users' => $users, 'usersLenght' => $usersLenght]);
+    }
+
+    public function blockUser(Request $request, $id)
+    {
+        User::where("id", $id)->update([
+            "status" => 'Bloquer',
+        ]);
+        $users = User::orderBy('created_at', 'desc')->get();
+        return response()->json(['users' => $users]);
+    }
+    public function unBlockUser(Request $request, $id)
+    {
+        User::where("id", $id)->update([
+            "status" => 'Débloquer',
+        ]);
+        $users = User::orderBy('created_at', 'desc')->get();
+        return response()->json(['users' => $users]);
+    }
+    public function search(Request $request, $page)
+    {
+        if ($request->search == "all") {
+            $users = User::orderBy('created_at', 'desc')->offset(7 * ($page - 1))->limit(7)->get();
+            $usersLenght = count(User::all());
+            return response()->json(['users' => $users, 'usersLenght' => $usersLenght]);
+        }
+        if ($request->search == "id") {
+            $users = User::where('id', $request->searchValue)->get();
+            $usersLenght = count($users);
+            return response()->json(['users' => $users, 'usersLenght' => $usersLenght]);
+        }
+        if ($request->search == "email") {
+            $users = User::where('email', $request->searchValue)->get();
+            $usersLenght = count($users);
+            return response()->json(['users' => $users, 'usersLenght' => $usersLenght]);
+        }
+        if ($request->search == "status") {
+            $users = User::where('status', $request->searchValue)->orderBy('created_at', 'desc')->offset(7 * ($page - 1))->limit(7)->get();
+            $usersLenght = count(User::where('status', $request->searchValue)->get());
+            return response()->json(['users' => $users, 'usersLenght' => $usersLenght]);
+        }
+
+    }
 }

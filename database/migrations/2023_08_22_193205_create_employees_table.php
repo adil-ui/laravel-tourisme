@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('address',255);
             $table->string('phone',10);
             $table->string('email',50)->unique();
-            $table->string('password',255);
             $table->string('picture',255);
             $table->string("role", 30);
             $table->foreignIdFor(User::class);

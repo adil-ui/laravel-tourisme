@@ -26,7 +26,6 @@ class HotelController extends Controller
         }
         $hotel = new Hotel;
         $hotel->email = $request->email;
-        $hotel->password = $request->password ? Hash::make($request->password) : null;
         $hotel->name = $request->name;
         $hotel->address = $request->address;
         $hotel->phone = $request->phone;
@@ -49,14 +48,13 @@ class HotelController extends Controller
         } catch (Exception $e) {
             return response()->json(["error" => "An error occurred " . $e->getMessage()], 404);
         }
-
-
     }
 
     public function detailsHotel($id)
     {
         $hotel = Hotel::where('id', $id)->with('city')->get();
-        return response()->json(['hotel' => $hotel]);
+        $hotelRelated = Hotel::where('city_id', $hotel[0]->city_id)->with('city')->limit(5)->get();
+        return response()->json(['hotel' => $hotel, 'hotelRelated'=>$hotelRelated]);
     }
 
     public function updateHotel(Request $request, $id)
@@ -84,7 +82,6 @@ class HotelController extends Controller
             "email" => $request->email,
             "address" => $request->address,
             "phone" => $request->phone,
-            "password" => $hotel->password != $request->password ? Hash::make($request->password) : $hotel->password,
             "picture" => $picture,
             "description" => $request->description,
             "price" => $request->price,
@@ -102,7 +99,6 @@ class HotelController extends Controller
     public function deleteHotel($id)
     {
         Hotel::find($id)->delete();
-
     }
     public function getHotel()
     {
@@ -138,9 +134,9 @@ class HotelController extends Controller
             $hotelsLenght = count($hotels);
             return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
         }
-        if ($request->search == "star") {
-            $hotels = Hotel::where('star', $request->searchValue)->orderBy('created_at', 'desc')->with('city')->get();
-            $hotelsLenght = count($hotels);
+        if ($request->search === "star") {
+            $hotels = Hotel::where('star', $request->searchValue)->orderBy('created_at', 'desc')->with('city')->offset(7 * ($page - 1))->limit(7)->get();
+            $hotelsLenght = count(Hotel::where('star', $request->searchValue)->get());
             return response()->json(['hotels' => $hotels, 'hotelsLenght' => $hotelsLenght]);
         }
         if ($request->search == "city") {
@@ -154,7 +150,7 @@ class HotelController extends Controller
             }
         }
 
-        }
+    }
 
     }
 

@@ -30,6 +30,8 @@ class AuthController extends Controller
                     $tableName = 'hotels';
                 }elseif(Auth::user()->role === 'Agence'){
                     $tableName = 'agences';
+                }elseif(Auth::user()->role === 'Admin' || Auth::user()->role === 'Director'){
+                    $tableName = 'employees';
                 }else{
                     $tableName = 'guides';
                 }
