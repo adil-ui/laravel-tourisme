@@ -1,4 +1,4 @@
-<?php
+p<?php
 
 use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 100)->unique();
             $table->string('picture', 255);
-            $table->string('descritpion');
+            $table->string('description');
             $table->foreignIdFor(Category::class);
             $table->timestamps();
         });

@@ -3,10 +3,12 @@
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
-use App\Http\Controllers\DetailsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +59,33 @@ Route::post('/add-agency', [AgencyController::class, 'addAgency']);
 Route::post('/update-agency/{id}', [AgencyController::class, 'updateAgency']);
 Route::delete('/delete-agency/{id}', [ AgencyController::class, 'deleteAgency']);
 Route::get('/details-agency/{id}', [ AgencyController::class, 'detailsAgency']);
+
+Route::get('/all-guide', [GuideController::class, 'getGuide']);
+Route::get('/home-guide-per-page/{page}', [GuideController::class, 'getHomeGuidePerPage']);
+Route::get('/guide-per-page/{page}', [GuideController::class, 'getGuidePerPage']);
+Route::post('/search-guide/{page}', [GuideController::class, 'search']);
+Route::post('/add-guide', [GuideController::class, 'addGuide']);
+Route::post('/update-guide/{id}', [GuideController::class, 'updateGuide']);
+Route::delete('/delete-guide/{id}', [ GuideController::class, 'deleteGuide']);
+Route::get('/details-guide/{id}', [ GuideController::class, 'detailsGuide']);
+
+Route::get('/all-category', [CategoryController::class, 'getCategory']);
+Route::get('/home-category-per-page/{page}', [CategoryController::class, 'getHomeCategoryPerPage']);
+Route::get('/category-per-page/{page}', [CategoryController::class, 'getCategoryPerPage']);
+Route::post('/search-category/{page}', [CategoryController::class, 'search']);
+Route::post('/add-category', [CategoryController::class, 'addCategory']);
+Route::post('/update-category/{id}', [CategoryController::class, 'updateCategory']);
+Route::delete('/delete-category/{id}', [ CategoryController::class, 'deleteCategory']);
+Route::get('/details-category/{id}', [ CategoryController::class, 'detailsCategory']);
+
+Route::get('/all-information', [InfoController::class, 'getInformation']);
+Route::get('/home-information-per-page/{page}', [InfoController::class, 'getHomeInformationPerPage']);
+Route::get('/information-per-page/{page}', [InfoController::class, 'getInformationPerPage']);
+Route::post('/search-information/{page}', [InfoController::class, 'search']);
+Route::post('/add-information', [InfoController::class, 'addInformation']);
+Route::post('/update-information/{id}', [InfoController::class, 'updateInformation']);
+Route::delete('/delete-information/{id}', [ InfoController::class, 'deleteInformation']);
+Route::get('/details-information/{id}', [ InfoController::class, 'detailsInformation']);
 
 Route::get('/all-employe', [EmployeController::class, 'getEmploye']);
 Route::get('/employe-per-page/{page}', [EmployeController::class, 'getEmployePerPage']);

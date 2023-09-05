@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('latitude',50)->nullable();
             $table->string("role", 30);
             $table->foreignIdFor(City::class)->nullable();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->nullable();
 
             $table->rememberToken();
             $table->timestamps();

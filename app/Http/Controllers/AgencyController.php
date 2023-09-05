@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Agence;
 use App\Models\City;
-use App\Models\Hotel;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -54,7 +53,7 @@ class AgencyController extends Controller
     {
         $agency = Agence::where('id', $id)->with('city')->get();
         $agencyRelated = Agence::where('city_id', $agency[0]->city_id)->with('city')->limit(5)->get();
-        return response()->json(['agency' => $agency, 'hotelRelated'=>$agencyRelated]);
+        return response()->json(['agency' => $agency, 'agencyRelated'=>$agencyRelated]);
     }
 
     public function updateAgency(Request $request, $id)
@@ -100,7 +99,7 @@ class AgencyController extends Controller
     }
     public function getAgency()
     {
-        $agencies = Agence::orderBy("created_at", "desc")->with('city')->get();
+        $agencies = Agence::orderBy('created_at', 'desc')->with('city')->get();
         return response()->json(['agencies' => $agencies]);
     }
     public function getAgencyPerPage($page)
