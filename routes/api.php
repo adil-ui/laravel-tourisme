@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
@@ -38,9 +39,12 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password/{token}', [AuthController::class, 'resetPassword']);
 
 
-Route::post('/add-bookmark', [BookmarkController::class, 'addBookmark']);
-Route::get('/get-bookmark', [BookmarkController::class, 'getBookmark']);
-Route::post('/delete-bookmark/{id}', [BookmarkController::class, 'deleteBookmark']);
+Route::post('/add-bookmark/{id}', [BookmarkController::class, 'addBookmark']);
+Route::get('/get-bookmark/{id}', [BookmarkController::class, 'getBookmark']);
+Route::get('/bookmark-per-page/{page}{id}', [BookmarkController::class, 'getBookmarkPerPage']);
+
+Route::delete('/delete-bookmark/{id}', [BookmarkController::class, 'deleteBookmark']);
+Route::get('/test-bookmark/{name}', [BookmarkController::class, 'testBookmark']);
 
 Route::get('/all-hotel', [HotelController::class, 'getHotel']);
 Route::get('/home-hotel-per-page/{page}', [HotelController::class, 'getHomeHotelPerPage']);
@@ -97,3 +101,8 @@ Route::get('/details-employe/{id}', [ EmployeController::class, 'detailsEmploye'
 Route::get('/home', [HomeController::class, 'home']);
 Route::get('/stats', [HomeController::class, 'stats']);
 
+
+Route::get('/get-cities', [FilterController::class, 'getCities']);
+Route::get('/get-categories', [FilterController::class, 'getCategories']);
+Route::post('/filter-hotels', [FilterController::class, 'filter']);
+Route::post('/filter-hotels-per-page/{page}', [FilterController::class, 'filterPerPage']);

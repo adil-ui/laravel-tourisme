@@ -13,14 +13,18 @@ class Hotel extends Person
     protected $fillable = [
         'price',
         'star',
+        'description',
         'link',
         'longitude',
-        'description',
         'latitude',
         'city_id',
     ];
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+    public function bookmark()
+    {
+        return $this->hasMany(Bookmark::class);
     }
 }

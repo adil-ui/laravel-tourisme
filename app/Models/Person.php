@@ -18,6 +18,7 @@ class Person extends Model
         'picture',
         "role",
         'status',
+        'user_id',
         'created_at',
         'updated_at'
     ];

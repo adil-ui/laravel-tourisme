@@ -21,4 +21,8 @@ class Guide extends Person
     {
         return $this->belongsTo(City::class);
     }
+    public function bookmark()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
 }

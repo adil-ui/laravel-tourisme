@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Agence;
+use App\Models\Bookmark;
 use App\Models\Guide;
 use App\Models\Hotel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,10 @@ class City extends Model
     public function agence()
     {
         return $this->hasMany(Agence::class);
+    }
+    public function bookmark()
+    {
+        return $this->hasMany(Bookmark::class);
     }
 
 }

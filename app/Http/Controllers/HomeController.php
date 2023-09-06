@@ -19,8 +19,9 @@ class HomeController extends Controller
         $guides = Guide::orderBy("created_at", "desc")->with('city')->limit(4)->get();
         $hotels = Hotel::orderBy("created_at", "desc")->with('city')->limit(4)->get();
         $agences = Agence::orderBy("created_at", "desc")->with('city')->limit(4)->get();
+        $informations = Information::orderBy("created_at", "desc")->limit(4)->get();
 
-        return response()->json(['hotels' => $hotels,'guides' => $guides, 'agences' => $agences]);
+        return response()->json(['hotels' => $hotels,'guides' => $guides, 'agences' => $agences, 'informations' => $informations]);
     }
 
     public function stats()
@@ -33,8 +34,9 @@ class HomeController extends Controller
         $employees = count(Employee::all());
         $categories = count(Category::all());
         $informations = count(Information::all());
+        $monuments = count(Information::where('category_id', 1)->get());
 
-        return response()->json(['hotels' => $hotels, 'informations' => $informations, 'categories' => $categories, 'employees' => $employees, 'users' => $users, 'cities' => $cities,'guides' => $guides, 'agencies' => $agencies]);
+        return response()->json(['hotels' => $hotels, 'informations' => $informations, 'categories' => $categories, 'employees' => $employees, 'users' => $users, 'cities' => $cities,'guides' => $guides, 'agencies' => $agencies,'monuments' => $monuments]);
     }
 
 }
