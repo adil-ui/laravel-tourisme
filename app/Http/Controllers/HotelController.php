@@ -54,7 +54,7 @@ class HotelController extends Controller
     {
         $hotel = Hotel::where('id', $id)->with('city')->get();
         $hotelRelated = Hotel::where('city_id', $hotel[0]->city_id)->with('city')->limit(5)->get();
-        return response()->json(['hotel' => $hotel, 'hotelRelated'=>$hotelRelated]);
+        return response()->json(['hotel' => $hotel, 'hotelRelated' => $hotelRelated]);
     }
 
     public function updateHotel(Request $request, $id)
@@ -149,20 +149,8 @@ class HotelController extends Controller
                 return response()->json(['hotels' => [], "hotelsLenght" => 0]);
             }
         }
+       
 
     }
 
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

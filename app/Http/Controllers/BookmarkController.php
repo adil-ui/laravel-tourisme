@@ -29,13 +29,14 @@ class BookmarkController extends Controller
         $bookmark->longitude = $request->longitude;
         $bookmark->latitude = $request->latitude;
         $bookmark->link = $request->link;
+        $bookmark->picture = $request->picture;
         $bookmark->city_id = $city->id;
         $bookmark->user_id = $id;
         $bookmark->created_at = Carbon::now();
         $bookmark->updated_at = Carbon::now();
-        if ($request->hasFile('picture') && $request->file('picture')->isValid()) {
-            $bookmark->picture = 'storage/' . $request->picture->store('images/bookmark');
-        }
+        // if ($request->filled('picture')) {
+        //     $bookmark->picture = 'storage/' . $request->picture->store('images/bookmark');
+        // }
         try {
             $bookmark->save();
             return response()->json(["message" => 'Hôtel ajouter avec succès']);
